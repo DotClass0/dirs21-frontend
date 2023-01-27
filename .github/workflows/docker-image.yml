@@ -14,7 +14,7 @@ jobs:
       with:
         node-version: '18.x'
     - name: install dependencies
-      run: npm ci
+      run: npm i
     - name: build image
       run: docker build . --file Dockerfile --tag dirs21
       
