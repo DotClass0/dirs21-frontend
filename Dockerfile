@@ -11,4 +11,4 @@ WORKDIR ../api
 RUN npm install
 
 EXPOSE 9000
-CMD [ "node", "index.js" ]
+CMD [ "node", "server.js" ]
