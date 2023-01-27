@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    - name: install dependencies
+      run: npm ci
+    - name: build image
+      run: docker build . --file Dockerfile --tag dirs21
+      
+  deploy:
+      runs-on: self-hosted
+      environment: self-hosted
+      steps:
+        - uses: actions/checkout@v3
+        - name: deploy image
+          run: |
+            docker container rm -f dirs21
+            docker run --network="host" -d -t -i --restart unless-stopped --name dirs21 -p 9000:9000 dirs21
